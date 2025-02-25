@@ -1,0 +1,22 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    background-color: white; /* Ensure it matches the container */
+}
+
+.animated-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Change to your desired color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.animated-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
