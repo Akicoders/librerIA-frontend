@@ -1,4 +1,4 @@
-'use client'
+
 import React, {  useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from "@/components/ui/button"
@@ -6,14 +6,33 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BookOpen, Brain, ChevronRight, Sparkles, BookOpenCheck, Lightbulb, User, Mail, Lock } from 'lucide-react'
 import { InputIcon } from '@/components/ui/input-icon'
+import { authService } from './services/auth'
 
 export default function App() {
   const [isSignUp, setIsSignUp] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
+  const [lastName, setLastname] = useState("")
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  console.log(isSignUp)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     // Aquí iría la lógica de autenticación o registro
-    console.log('Formulario enviado:', isSignUp ? 'Registro' : 'Inicio de sesión')
+    //login -> false, sign-up -> true
+    e.preventDefault();
+  try{
+    if(!isSignUp){
+          const respnse = await authService.login({email,password});
+          
+          console.log(respnse)
+    }else{
+      const respnse = await authService.register({name, lastName, email, password})
+      console.log(respnse)
+    }
+  }catch(error){
+    console.error('Authentication error:' , error)
+  }    console.log('Formulario enviado:', isSignUp ? 'Registro' : 'Inicio de sesión')
   }
 
   function FeatureCard( { icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
@@ -81,13 +100,13 @@ export default function App() {
                     <div>
                       <Label htmlFor="name" className="text-sm font-medium text-gray-300">Nombre</Label>
                       <InputIcon icon={<User className="h-4 w-4 text-gray-500" />}>
-                      <Input id="name" type="text"  className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
+                      <Input id="name" type="text" onChange={(e) => setName(e.target.value)}  className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
                       </InputIcon>
                     </div>
                     <div>
                       <Label htmlFor="lastname" className="text-sm font-medium text-gray-300">Apellidos</Label>
                       <InputIcon icon={<User className="h-4 w-4 text-gray-500" />}>
-                      <Input id="lastname" type="text"  className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
+                      <Input id="lastname" type="text" onChange={(e) => setLastname(e.target.value)}  className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
                       </InputIcon>
                     </div>
                   </div>
@@ -97,16 +116,19 @@ export default function App() {
             <div>
               <Label htmlFor="email" className="text-sm font-medium text-gray-300">Email</Label>
               <InputIcon icon={<Mail className="h-4 w-4 text-gray-500" />}>
-              <Input id="email" type="email"  className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
+              <Input id="email" type="email" className="mt-1 bg-gray-800 border-gray-700 text-white pl-10"  onChange={(e) => setEmail(e.target.value)} required />
               </InputIcon>
             </div>
             <div>
               <Label htmlFor="password" className="text-sm font-medium text-gray-300">Contraseña</Label>
               <InputIcon icon={<Lock className="h-4 w-4 text-gray-500" />}>
-              <Input id="password" type="password"  className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
+              <Input id="password" type="password"  onChange={(e) => setPassword(e.target.value)}    className="mt-1 bg-gray-800 border-gray-700 text-white pl-10" required />
               </InputIcon>
             </div>
-            <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+            <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+             type='submit'
+
+            >
               {isSignUp ? 'Registrarse' : 'Iniciar sesión'}
             </Button>
           </form>
