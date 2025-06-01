@@ -125,6 +125,6 @@ npm run dev
 <div align="center">
 
 [![Stars](https://img.shields.io/github/stars/Akicoders/libreria-frontend?style=social)](https://github.com/Akicoders/libreria-frontend/stargazers)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 
 </div>
